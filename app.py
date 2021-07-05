@@ -1,5 +1,8 @@
+# Tozny imports
 import e3db
 from e3db.types import Search
+
+#Flask
 from flask import Flask
 from flask import jsonify
 from flask import request
