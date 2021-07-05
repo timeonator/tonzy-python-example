@@ -33,18 +33,18 @@ def status(user,round):
 @app.route("/winner/<judge>/<user>/<round>", methods=['POST'])
 def winner(judge,user,round):
     client = e3db.Client(e3db.Config.load(judge))
-    record = client.write('outcome',
+    record_id = client.write('outcome',
         data={'winner':user},
         plain={'round':round})
-    return(user,round)
+    return jsonify(record_id.to_json())
 
 @app.route("/move/<user>/<round>/<move>",methods=['POST'])
 def post_move(user,round,move):
     print("move/usr/round/move", user, round, move)
     client = e3db.Client(e3db.Config.load(user))
     # write the users move for the round
-    record = client.write('moves', data={'move':move}, plain={'round':round,'user':user})
-    return f"record succesfully written"
+    record_id = client.write('moves', data={'move':move}, plain={'round':round,'user':user})
+    return jsonify(record_id.to_json())
 
 
 @app.route("/move/<user>/<round>",methods=['GET'])
