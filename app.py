@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Tonzny Python Example</p>"
 
 @app.route("/status/<user>/<round>")
 def status(user,round):
@@ -26,31 +26,37 @@ def status(user,round):
     else:
         record = results.records[0]
         return jsonify(record.to_json())
-    # return f'/status/{escape(user)}/{escape(round)}'
 
-@app.route("/judge/<user>/<round>")
-def judge(user,round):
+
+# post the winner's name for the round.
+#
+@app.route("/winner/<judge>/<user>/<round>", methods=['POST'])
+def winner(judge,user,round):
+    client = e3db.Client(e3db.Config.load(judge))
+    record = client.write('outcome',
+        data={'winner':user},
+        plain={'round':round})
     return(user,round)
 
 @app.route("/move/<user>/<round>/<move>",methods=['POST'])
 def post_move(user,round,move):
+    print("move/usr/round/move", user, round, move)
     client = e3db.Client(e3db.Config.load(user))
     # write the users move for the round
-    record = client.write('moves', data={user:move}, plain={'round':round})
-    return record.meta.record_id
+    record = client.write('moves', data={'move':move}, plain={'round':round,'user':user})
+    return f"record succesfully written"
 
 
 @app.route("/move/<user>/<round>",methods=['GET'])
 def get_move(user,round):
     client = e3db.Client(e3db.Config.load(user))
-    if request.method == 'GET' :
-        query=Search(include_data=True,include_all_writers = True ).match(record_types=['moves'], plain={'round':round})
-        results = client.search(query)
-        if len(results) == 0 :
-             return( f'<p>no records found for {escape(round)}')
-        else :
-            record = results.records[0]
-            return jsonify(record.to_json())
+    query=Search(include_data=True,include_all_writers = True ).match(record_types=['moves'], plain={'round':round})
+    results = client.search(query)
+    if len(results) == 0 :
+            return( f'<p>no records found for {escape(round)}')
+    else :
+        record = results.records[0]
+        return jsonify(record.to_json())
 
 
 
