@@ -15,7 +15,7 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Tonzny Python Example</p>"
 
-@app.route("/status/<user>/<round>")
+@app.route("/status/<user>/<string:round>")
 def status(user,round):
     print(user,round)
     client = e3db.Client(e3db.Config.load(user))
@@ -30,27 +30,28 @@ def status(user,round):
 
 # post the winner's name for the round.
 #
-@app.route("/winner/<judge>/<user>/<round>", methods=['POST'])
+@app.route("/winner/<judge>/<user>/<string:round>", methods=['POST'])
 def winner(judge,user,round):
     client = e3db.Client(e3db.Config.load(judge))
-    record_id = client.write('outcome',
-        data={'winner':user},
-        plain={'round':round})
+    record_id = client.write('outcome', data={'winner':user}, plain={'round':round})
     return jsonify(record_id.to_json())
 
-@app.route("/move/<user>/<round>/<move>",methods=['POST'])
+@app.route("/move/<user>/<string:round>/<move>",methods=['POST'])
 def post_move(user,round,move):
     print("move/usr/round/move", user, round, move)
     client = e3db.Client(e3db.Config.load(user))
     # write the users move for the round
-    record_id = client.write('moves', data={'move':move}, plain={'round':round,'user':user})
+    record_id = client.write('moves',
+        data={'move':move},
+        plain={'round':round,'user':user})
     return jsonify(record_id.to_json())
 
 
-@app.route("/move/<user>/<round>",methods=['GET'])
+@app.route("/move/<user>/<string:round>",methods=['GET'])
 def get_move(user,round):
     client = e3db.Client(e3db.Config.load(user))
-    query=Search(include_data=True,include_all_writers = True ).match(record_types=['moves'], plain={'round':round})
+    query=Search(include_data=True,
+    include_all_writers = True ).match(record_types=['moves'], plain={'round':round})
     results = client.search(query)
     if len(results) == 0 :
             return( f'<p>no records found for {escape(round)}')
