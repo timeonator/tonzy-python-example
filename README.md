@@ -1,5 +1,6 @@
 # tonzy-python-example
 ## Installation
+Assuming that you have python 3.9 installed the following do the following to get the API setup.
      git clone https://github.com/timeonator/tonzy-python-example
      move to the cloned directory (tonzy-python-example
      python3 -m venv <.venv>
@@ -15,8 +16,34 @@ The api is still under development and runs on the localhost at port 5000. I'm u
     flask run
     
 ## API Spec
-Unfortunately I haven't got the spec ready yet but fortunately it's simple so far so you can probably read app.py and figure it out for now.
+This API is uses two record =_types to manage the underlying data, moves and outcomes. 
 
+#### outcome record_type
+The outcomes record_type contains the results for game rounds and is indexed by <round>
+```
+data={'winner':<user>},
+plain={'round':<round>}
+```
+
+#### moves record_type
+The moves record_type contains private data indicating how the given user moved for a given round.
+```
+     data={'move':<move>},
+     plain={'round':<round>,'user':<user>}
+```
+Players data is shared by each player with the judge but not among the players.
+     
+### GET /status/<user>/<round>
+returns the record for the given <user> and <round> assuming that one exists otherwise returns a record not found message
+#### Example
+     /status/alicia/1
+Assuming that alicia won roun 1 the endpoint will find a record_type outcomes containing
+     {
+     "winner": "alicia"
+     }
+
+### PUSH /winner/<judge>/<user>/<round>
+writes a record indicating that <user> won <round>
 
 ## Utility Programs
 The utility programs are all in cli-utils
