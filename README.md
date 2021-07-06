@@ -1,5 +1,5 @@
 # tonzy-python-example
-##installation
+## Installation
      git clone https://github.com/timeonator/tonzy-python-example
      move to the cloned directory (tonzy-python-example
      python3 -m venv <.venv>
