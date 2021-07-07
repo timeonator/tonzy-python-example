@@ -1,17 +1,25 @@
 # tonzy-python-example
 ## Installation
 Assuming that you have python 3.9 installed the following do the following to get the API setup.
+```
      git clone https://github.com/timeonator/tonzy-python-example
      move to the cloned directory (tonzy-python-example
      python3 -m venv <.venv>
      source .venv/Scripts/activate
      python -m pip install --upgrade pip
      pip install -r requirements.txt
+```
+## Setting Up Tozny
+
+### create a Tozny account
+(Refer to Tozny docs)
+### Initialize A Game
+Describe how to run scripts to initialize game participantes, and sharing
 
 ## Running The API
 I use a bash shell and start the app api with the following:
      flask run
-The api is still under development and runs on the localhost at port 5000. I'm using visual studio for my dev environment and testing the api with Thunder Client https://www.thunderclient.io/. I am still new to this plugin so I don't have any of the api tests in the repository yet. Postman will work.
+The api is still under development and runs on the localhost at port 5000. I'm using visual studio for my dev environment and testing the api with Thunder Client https://www.thunderclient.io/. I am still new to this plugin so I don't have any of the api tests in the repository yet. Postman or curl would also work.
 
     flask run
     
@@ -21,8 +29,8 @@ This API is uses two record =_types to manage the underlying data, moves and out
 #### outcome record_type
 The outcomes record_type contains the results for game rounds and is indexed by <round>
 ```
-data={'winner':<user>},
-plain={'round':<round>}
+     data={'winner':<user>},
+     plain={'round':<round>}
 ```
 
 #### moves record_type
@@ -31,20 +39,40 @@ The moves record_type contains private data indicating how the given user moved 
      data={'move':<move>},
      plain={'round':<round>,'user':<user>}
 ```
-Players data is shared by each player with the judge but not among the players.
+
+Player data is shared with the judge but not among the players.
      
-### GET /status/<user>/<round>
+### GET /status/\<user\>/\<round\>
+#### Response
 returns the record for the given <user> and <round> assuming that one exists otherwise returns a record not found message
+```
+     {
+     "winner":<user>
+     }
+```
 #### Example
-     /status/alicia/1
-Assuming that alicia won roun 1 the endpoint will find a record_type outcomes containing
+```
+     localhost:5000/status/alicia/1
+```
+if alicia won round 1 this would return
+``` 
      {
      "winner": "alicia"
      }
-
-### PUSH /winner/<judge>/<user>/<round>
+```
+### PUSH /winner/\<judge\>/\<user\>/\<round\>
 writes a record indicating that <user> won <round>
-
+#### example
+Write a reccord indicating that alicia is the winner of round 2
+```
+     localhost://5000/winner/clarence/alicia/2
+```
+The response is the data part of the written record
+ ```
+     {
+          "winner": "alicia"
+     }
+```
 ## Utility Programs
 The utility programs are all in cli-utils
 
