@@ -36,6 +36,18 @@ def winner(judge,user,round):
     record_id = client.write('outcome', data={'winner':user}, plain={'round':round})
     return jsonify(record_id.data)
 
+@app.route("/move/all/<user>")
+def moves_all(user):
+    client = e3db.Client(e3db.Config.load(user))
+    query=Search(include_data=True,
+    include_all_writers = True ).match(record_types=['moves'])
+    results = client.search(query)
+    if len(results) == 0 :
+            return( f'<p>no records found for {escape(round)}')
+    else :
+        record = results.records[0]
+        return jsonify([x.to_json() for x in results])
+
 @app.route("/move/<user>/<string:round>/<move>",methods=['POST'])
 def post_move(user,round,move):
     print("move/usr/round/move", user, round, move)
