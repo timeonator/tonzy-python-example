@@ -1,11 +1,11 @@
-# tonzy-python-example
+# tozny-python-example
 ## Overview
-This app implements a simple Rock/Scissors/Paper game. The implementation demonstrates how to use the Tozny a3db API to manage shared and private data between Tonzy clients.
+This app implements a simple Rock/Scissors/Paper game. The implementation demonstrates how to use the Tozny a3db API to manage shared and private data between Tozny clients.
 ## Installation
 Assuming that you have python 3.9 installed the following do the following to get the API setup.
 ```
-     git clone https://github.com/timeonator/tonzy-python-example
-     move to the cloned directory (tonzy-python-example
+     git clone https://github.com/timeonator/tozny-python-example
+     move to the cloned directory (tozny-python-example
      python3 -m venv <.venv>
      source .venv/Scripts/activate
      python -m pip install --upgrade pip
@@ -16,7 +16,7 @@ Assuming that you have python 3.9 installed the following do the following to ge
 ### create a Tozny account
 (Refer to Tozny docs)
 ### Initialize A Game
-Describe how to run scripts to initialize game participantes, and setup sharing between the Tonzy clients.
+Describe how to run scripts to initialize game participantes, and setup sharing between the Tozny clients.
 
 ## Running The API
 I use a bash shell and start the app api with the following:
@@ -25,8 +25,8 @@ The api is still under development and runs on the localhost at port 5000. I'm u
 
     flask run
     
-##  Tonzy Record Type
-The API is implemented with two underlying Tonzy record types (**record_type**), **outcome** and **moves**
+##  Tozny Record Type
+The API is implemented with two underlying Tozny record types (**record_type**), **outcome** and **moves**
 The **outcomes** record_type contains the results for game rounds and is indexed by <round>. Clients in the scope of this game share the winner data.
 ```
      data={'winner':<user>},
