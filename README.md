@@ -1,4 +1,6 @@
 # tonzy-python-example
+## Overview
+This app implements a simple Rock/Scissors/Paper game. The implementation demonstrates how to use the Tozny a3db API to manage shared and private data between Tonzy clients.
 ## Installation
 Assuming that you have python 3.9 installed the following do the following to get the API setup.
 ```
