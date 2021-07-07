@@ -63,7 +63,7 @@ In this case
 Read a **moves record_type**
 #### Response
 ```
-     "data": {
+     {
           "move":<move>
      }
 ```
